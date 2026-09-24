@@ -143,4 +143,59 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /* ---------- Фото-слайдер (страница «Обо мне») ---------- */
+  var photoSlider = document.querySelector('[data-photo-slider]');
+  if (photoSlider) {
+    var pImgs = photoSlider.querySelectorAll('.photo-slider__frame img');
+    var pDots = photoSlider.querySelectorAll('.slider-dots button');
+    function showPhoto(i) {
+      pImgs.forEach(function (img, idx) { img.classList.toggle('is-active', idx === i); });
+      pDots.forEach(function (dot, idx) { dot.classList.toggle('is-active', idx === i); });
+    }
+    pDots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { showPhoto(i); });
+    });
+  }
+
+  /* ---------- Лайтбокс галереи сертификатов ---------- */
+  var lightbox = document.getElementById('certLightbox');
+  if (lightbox) {
+    var lbImg = lightbox.querySelector('.lightbox__img');
+    var lbCaption = lightbox.querySelector('.lightbox__caption');
+    var certButtons = Array.prototype.slice.call(document.querySelectorAll('[data-cert-full]'));
+    var lbIndex = 0;
+
+    function openLightbox(i) {
+      lbIndex = i;
+      var btn = certButtons[i];
+      lbImg.src = btn.getAttribute('data-cert-full');
+      lbCaption.textContent = btn.getAttribute('data-cert-caption') || '';
+      lightbox.classList.add('is-open');
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      lbImg.src = '';
+    }
+    function showRelative(delta) {
+      lbIndex = (lbIndex + delta + certButtons.length) % certButtons.length;
+      openLightbox(lbIndex);
+    }
+
+    certButtons.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { openLightbox(i); });
+    });
+    lightbox.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.lightbox__prev').addEventListener('click', function () { showRelative(-1); });
+    lightbox.querySelector('.lightbox__next').addEventListener('click', function () { showRelative(1); });
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) { closeLightbox(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!lightbox.classList.contains('is-open')) { return; }
+      if (e.key === 'Escape') { closeLightbox(); }
+      if (e.key === 'ArrowLeft') { showRelative(-1); }
+      if (e.key === 'ArrowRight') { showRelative(1); }
+    });
+  }
+
 });
