@@ -15,6 +15,13 @@
   --color-accent-soft: #e9c9b6;
   --color-border: #e6d7c6;
 
+  --color-telegram: #29a9eb;
+  --color-telegram-dark: #1f8ecb;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1ea952;
+  --color-viber: #7360f2;
+  --color-viber-dark: #5c4bd1;
+
   --font-heading: "Lora", Georgia, serif;
   --font-body: "Nunito", "Segoe UI", Arial, sans-serif;
 
@@ -144,6 +151,50 @@ p { margin: 0 0 1em; }
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
+}
+
+/* Messenger brand buttons — используются везде, где рядом стоят несколько
+   кнопок разных мессенджеров, чтобы они не сливались в одинаковые блоки */
+.btn--telegram { background: var(--color-telegram); color: #fff; }
+.btn--telegram:hover { background: var(--color-telegram-dark); }
+
+.btn--whatsapp { background: var(--color-whatsapp); color: #fff; }
+.btn--whatsapp:hover { background: var(--color-whatsapp-dark); }
+
+.btn--viber { background: var(--color-viber); color: #fff; }
+.btn--viber:hover { background: var(--color-viber-dark); }
+
+.btn--phone {
+  background: transparent;
+  border-color: var(--color-text-soft);
+  color: var(--color-text);
+}
+.btn--phone:hover { background: var(--color-bg-alt); }
+
+/* ---------- Header quick-contact icons ---------- */
+.header-contacts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 4px;
+}
+
+.header-contacts a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.header-contacts a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 /* ---------- Header / Nav ---------- */
