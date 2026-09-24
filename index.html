@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Светлана Эль-Гадбан — психолог, психотерапевт. Консультации онлайн</title>
 <meta name="description" content="Светлана Эль-Гадбан — психолог, психотерапевт. Онлайн-консультации по всему миру: экспресс-консультация 25 минут, индивидуальная терапия, символдрама. Практика 11 лет.">
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -15,7 +16,38 @@
 <header class="site-header">
   <div class="container site-header__inner">
     <a href="index.html" class="logo">Светлана <span>Эль-Гадбан</span></a>
-    <nav class="nav">
+
+    <div class="nav-dropdown" data-dropdown>
+      <button class="nav-dropdown__trigger" type="button" aria-haspopup="true" aria-expanded="false">
+        Меню <span class="nav-dropdown__arrow" aria-hidden="true">▾</span>
+      </button>
+      <div class="nav-dropdown__panel">
+        <a href="about-me.html">Обо мне</a>
+        <a href="#requests">Запросы</a>
+        <a href="#formats">Форматы</a>
+        <a href="#testimonials">Отзывы</a>
+        <a href="#materials">Материалы</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Контакты</a>
+      </div>
+    </div>
+
+    <a href="#express" class="btn btn--primary btn--sm header-express">Экспресс-консультация</a>
+
+    <div class="header-icons">
+      <a href="https://t.me/SvetlanaElGadban" class="icon-circle" style="background:var(--color-telegram);" target="_blank" rel="noopener" aria-label="Написать в Telegram" title="Telegram">TG</a>
+      <a href="https://wa.me/380503160777" class="icon-circle" style="background:var(--color-whatsapp);" target="_blank" rel="noopener" aria-label="Написать в WhatsApp" title="WhatsApp">WA</a>
+      <a href="viber://chat?number=380503160777" class="icon-circle" style="background:var(--color-viber);" aria-label="Написать в Viber" title="Viber">VB</a>
+      <a href="https://www.instagram.com/psy.svetlanael" class="icon-circle icon-circle--muted" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">IG</a>
+      <a href="https://www.facebook.com/profile.php?id=100001886701435" class="icon-circle icon-circle--muted" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">FB</a>
+    </div>
+
+    <button class="nav-toggle" aria-label="Открыть меню" aria-expanded="false">☰</button>
+  </div>
+
+  <!-- Мобильное меню (раскрывается по клику на ☰) -->
+  <div class="mobile-menu">
+    <nav class="mobile-menu__links">
       <a href="about-me.html">Обо мне</a>
       <a href="#requests">Запросы</a>
       <a href="#express">Экспресс-консультация</a>
@@ -23,14 +55,15 @@
       <a href="#testimonials">Отзывы</a>
       <a href="#materials">Материалы</a>
       <a href="#faq">FAQ</a>
-      <a href="#contact" class="btn btn--primary btn--sm">Контакты</a>
+      <a href="#contact">Контакты</a>
     </nav>
-    <div class="header-contacts">
-      <a href="https://t.me/SvetlanaElGadban" style="background:var(--color-telegram);" target="_blank" rel="noopener" aria-label="Написать в Telegram" title="Telegram">TG</a>
-      <a href="https://wa.me/380503160777" style="background:var(--color-whatsapp);" target="_blank" rel="noopener" aria-label="Написать в WhatsApp" title="WhatsApp">WA</a>
-      <a href="viber://chat?number=380503160777" style="background:var(--color-viber);" aria-label="Написать в Viber" title="Viber">VB</a>
+    <div class="mobile-menu__icons">
+      <a href="https://t.me/SvetlanaElGadban" class="icon-circle" style="background:var(--color-telegram);" target="_blank" rel="noopener" aria-label="Написать в Telegram" title="Telegram">TG</a>
+      <a href="https://wa.me/380503160777" class="icon-circle" style="background:var(--color-whatsapp);" target="_blank" rel="noopener" aria-label="Написать в WhatsApp" title="WhatsApp">WA</a>
+      <a href="viber://chat?number=380503160777" class="icon-circle" style="background:var(--color-viber);" aria-label="Написать в Viber" title="Viber">VB</a>
+      <a href="https://www.instagram.com/psy.svetlanael" class="icon-circle icon-circle--muted" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">IG</a>
+      <a href="https://www.facebook.com/profile.php?id=100001886701435" class="icon-circle icon-circle--muted" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">FB</a>
     </div>
-    <button class="nav-toggle" aria-label="Меню">☰</button>
   </div>
 </header>
 

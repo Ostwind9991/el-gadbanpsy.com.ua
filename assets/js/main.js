@@ -2,17 +2,61 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ---------- Мобильное меню ---------- */
-  var toggle = document.querySelector('.nav-toggle');
-  var nav = document.querySelector('.nav');
-  if (toggle && nav) {
-    toggle.addEventListener('click', function () {
-      nav.classList.toggle('is-open');
+  /* ---------- Выпадающее меню "Меню" (десктоп) ---------- */
+  var dropdown = document.querySelector('[data-dropdown]');
+  if (dropdown) {
+    var dropdownTrigger = dropdown.querySelector('.nav-dropdown__trigger');
+
+    function closeDropdown() {
+      dropdown.classList.remove('is-open');
+      dropdownTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    dropdownTrigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = dropdown.classList.toggle('is-open');
+      dropdownTrigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
-    nav.querySelectorAll('a').forEach(function (link) {
+
+    dropdown.querySelectorAll('.nav-dropdown__panel a').forEach(function (link) {
+      link.addEventListener('click', closeDropdown);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!dropdown.contains(e.target)) { closeDropdown(); }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closeDropdown(); }
+    });
+  }
+
+  /* ---------- Мобильное меню (гамбургер) ---------- */
+  var toggle = document.querySelector('.nav-toggle');
+  var mobileMenu = document.querySelector('.mobile-menu');
+  if (toggle && mobileMenu) {
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = mobileMenu.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
-        nav.classList.remove('is-open');
+        mobileMenu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
       });
+    });
+    document.addEventListener('click', function (e) {
+      if (!mobileMenu.contains(e.target) && e.target !== toggle) {
+        mobileMenu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        mobileMenu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
     });
   }
 
