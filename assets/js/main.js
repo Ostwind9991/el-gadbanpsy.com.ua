@@ -80,13 +80,22 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ---------- Видео-слайдер (ленивая загрузка iframe) ----------
      Три вертикальных Shorts про экспресс-консультацию.
      iframe для активного слайда создаётся только по клику на play,
-     чтобы не грузить/не проигрывать все три ролика сразу. */
+     чтобы не грузить/не проигрывать все три ролика сразу.
+     Автопрокрутка (v19) — по тому же принципу, что и у фото-слайдера:
+     листает превью по кругу (бесконечно, % по длине), пауза при наведении/
+     фокусе, клик по точке не отключает автопрокрутку насовсем — только
+     сбрасывает таймер. Единственное отличие от фото-слайдера: как только
+     реально запущено воспроизведение (создан iframe) — автопрокрутка для
+     этого блока останавливается насовсем, чтобы не прерывать видео. */
   var slider = document.querySelector('[data-video-slider]');
   if (slider) {
     var screens = slider.querySelectorAll('.phone-frame__screen');
     var dots = slider.querySelectorAll('.slider-dots button');
     var caption = slider.querySelector('.slider-caption');
     var current = 0;
+    var sliderTimer = null;
+    var sliderAutoplayDelay = 4000;
+    var sliderAutoplayStopped = false;
 
     function showSlide(index) {
       screens.forEach(function (screen, i) {
@@ -106,6 +115,20 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       current = index;
     }
+    function nextSlide() {
+      showSlide((current + 1) % screens.length);
+    }
+    function startSliderAutoplay() {
+      clearInterval(sliderTimer);
+      sliderTimer = null;
+      if (!sliderAutoplayStopped && screens.length > 1) {
+        sliderTimer = setInterval(nextSlide, sliderAutoplayDelay);
+      }
+    }
+    function stopSliderAutoplay() {
+      clearInterval(sliderTimer);
+      sliderTimer = null;
+    }
 
     slider.querySelectorAll('.phone-frame__play').forEach(function (playBtn) {
       playBtn.addEventListener('click', function () {
@@ -119,14 +142,25 @@ document.addEventListener('DOMContentLoaded', function () {
         iframe.setAttribute('allowfullscreen', '');
         screen.appendChild(iframe);
         playBtn.style.display = 'none';
+        sliderAutoplayStopped = true;
+        stopSliderAutoplay();
       });
     });
 
     dots.forEach(function (dot, i) {
-      dot.addEventListener('click', function () { showSlide(i); });
+      dot.addEventListener('click', function () {
+        showSlide(i);
+        startSliderAutoplay();
+      });
     });
 
+    slider.addEventListener('mouseenter', stopSliderAutoplay);
+    slider.addEventListener('mouseleave', startSliderAutoplay);
+    slider.addEventListener('focusin', stopSliderAutoplay);
+    slider.addEventListener('focusout', startSliderAutoplay);
+
     showSlide(0);
+    startSliderAutoplay();
   }
 
   /* ---------- Одиночный видео-embed (напр. "Кто я") ----------
@@ -146,16 +180,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /* ---------- Слайдер «Обо мне» на главной (фото + видео «Кто я») ----------
-     v19: точки переключают между фото и видео-рамкой в общей раскладке
-     (см. комментарий в style.css). При уходе со слайда видео — убираем
-     созданный iframe и возвращаем кнопку play, чтобы звук не продолжал
-     играть на скрытом слайде (та же логика, что у слайдера Э/К выше). */
+  /* ---------- Слайдер «Обо мне» на главной (видео «Кто я» + фото) ----------
+     v19: точки переключают между видео-рамкой и фото в общей раскладке
+     (см. комментарий в style.css). Видео идёт первым слайдом. При уходе
+     со слайда видео — убираем созданный iframe и возвращаем кнопку play,
+     чтобы звук не продолжал играть на скрытом слайде (та же логика, что
+     у слайдера Э/К выше). Автопрокрутка — тот же принцип, что у фото-
+     слайдера и слайдера Э/К: листает по кругу, пауза при наведении/фокусе,
+     останавливается насовсем, как только реально запущено видео. */
   document.querySelectorAll('[data-about-slider]').forEach(function (aboutSlider) {
     var aSlides = aboutSlider.querySelectorAll('.about-slider__slide');
     var aDots = aboutSlider.querySelectorAll('.slider-dots button');
+    var aCurrent = 0;
+    var aTimer = null;
+    var aAutoplayDelay = 4000;
+    var aAutoplayStopped = false;
 
     function showAboutSlide(index) {
+      aCurrent = index;
       aSlides.forEach(function (slide, i) {
         slide.classList.toggle('is-active', i === index);
         if (i !== index) {
@@ -169,10 +211,41 @@ document.addEventListener('DOMContentLoaded', function () {
         dot.classList.toggle('is-active', i === index);
       });
     }
+    function nextAboutSlide() {
+      showAboutSlide((aCurrent + 1) % aSlides.length);
+    }
+    function startAboutAutoplay() {
+      clearInterval(aTimer);
+      aTimer = null;
+      if (!aAutoplayStopped && aSlides.length > 1) {
+        aTimer = setInterval(nextAboutSlide, aAutoplayDelay);
+      }
+    }
+    function stopAboutAutoplay() {
+      clearInterval(aTimer);
+      aTimer = null;
+    }
 
     aDots.forEach(function (dot, i) {
-      dot.addEventListener('click', function () { showAboutSlide(i); });
+      dot.addEventListener('click', function () {
+        showAboutSlide(i);
+        startAboutAutoplay();
+      });
     });
+
+    aboutSlider.querySelectorAll('.phone-frame__play').forEach(function (playBtn) {
+      playBtn.addEventListener('click', function () {
+        aAutoplayStopped = true;
+        stopAboutAutoplay();
+      });
+    });
+
+    aboutSlider.addEventListener('mouseenter', stopAboutAutoplay);
+    aboutSlider.addEventListener('mouseleave', startAboutAutoplay);
+    aboutSlider.addEventListener('focusin', stopAboutAutoplay);
+    aboutSlider.addEventListener('focusout', startAboutAutoplay);
+
+    startAboutAutoplay();
   });
 
   /* ---------- Фото-слайдер (страница «Обо мне») ----------
