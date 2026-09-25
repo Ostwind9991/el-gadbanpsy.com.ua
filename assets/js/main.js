@@ -151,13 +151,42 @@ document.addEventListener('DOMContentLoaded', function () {
   if (photoSlider) {
     var pImgs = photoSlider.querySelectorAll('.photo-slider__frame img');
     var pDots = photoSlider.querySelectorAll('.slider-dots button');
+    var pCurrent = 0;
+    var pTimer = null;
+    var pAutoplayDelay = 4000;
+
     function showPhoto(i) {
+      pCurrent = i;
       pImgs.forEach(function (img, idx) { img.classList.toggle('is-active', idx === i); });
       pDots.forEach(function (dot, idx) { dot.classList.toggle('is-active', idx === i); });
     }
+    function nextPhoto() {
+      showPhoto((pCurrent + 1) % pImgs.length);
+    }
+    function startAutoplay() {
+      stopAutoplay();
+      if (pImgs.length > 1) {
+        pTimer = setInterval(nextPhoto, pAutoplayDelay);
+      }
+    }
+    function stopAutoplay() {
+      if (pTimer) { clearInterval(pTimer); pTimer = null; }
+    }
+
     pDots.forEach(function (dot, i) {
-      dot.addEventListener('click', function () { showPhoto(i); });
+      dot.addEventListener('click', function () {
+        showPhoto(i);
+        startAutoplay(); // клик по точке не должен насовсем останавливать автопрокрутку — просто сбрасывает таймер
+      });
     });
+
+    // Пауза при наведении/фокусе — чтобы автопрокрутка не мешала разглядывать фото или пользоваться точками с клавиатуры
+    photoSlider.addEventListener('mouseenter', stopAutoplay);
+    photoSlider.addEventListener('mouseleave', startAutoplay);
+    photoSlider.addEventListener('focusin', stopAutoplay);
+    photoSlider.addEventListener('focusout', startAutoplay);
+
+    startAutoplay();
   }
 
   /* ---------- Лайтбокс галерей (сертификаты, скриншоты отзывов) ----------

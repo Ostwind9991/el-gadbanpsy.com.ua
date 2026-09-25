@@ -650,6 +650,17 @@ p { margin: 0 0 1em; }
   background: var(--color-accent-soft);
 }
 
+/* Точки видео-слайдера рассчитаны на тёмный фон (.express — тёмно-коричневый).
+   Фото-слайдер на /about-me стоит на светлом фоне страницы — те же полупрозрачные
+   белые точки на светлом фоне почти не видны, поэтому для него отдельная схема. */
+.photo-slider .slider-dots button {
+  background: var(--color-border);
+}
+
+.photo-slider .slider-dots button.is-active {
+  background: var(--color-accent);
+}
+
 .slider-caption {
   text-align: center;
   color: rgba(255,255,255,0.75);
@@ -1153,11 +1164,20 @@ a.format-card:hover {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.cert-thumb img,
 .review-shot img {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
+  display: block;
+}
+
+/* Сканы сертификатов — почти все альбомные (30 из 32), поэтому не обрезаем
+   их под портретную рамку скриншотов отзывов (как раньше), а вписываем
+   целиком в альбомный бокс — иначе текст на сканах обрезался по бокам. */
+.cert-thumb img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
   display: block;
 }
 
@@ -1283,6 +1303,23 @@ a.format-card:hover {
 
 .page-article {
   padding: 56px 0 72px;
+}
+
+/* Иллюстративное фото метода (сессия 15, продолжение) — как на старом сайте,
+   между заголовком и текстом. Без обрезки под фиксированную рамку: среди
+   присланных фото есть и портретные (песочница), и альбомные (группа) —
+   контейнер просто ограничивает ширину, высота остаётся естественной. */
+.article-photo {
+  max-width: 560px;
+  margin: -8px auto 40px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.article-photo img {
+  width: 100%;
+  display: block;
 }
 
 .page-article__head {
