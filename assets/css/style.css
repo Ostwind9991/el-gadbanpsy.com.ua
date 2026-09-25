@@ -69,6 +69,11 @@ a {
   color: inherit;
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 .container {
   width: 100%;
   max-width: var(--container-w);
@@ -212,6 +217,12 @@ p { margin: 0 0 1em; }
   width: 17px;
   height: 17px;
 }
+
+.icon-circle--telegram { background: var(--color-telegram-soft); border-color: var(--color-telegram); color: var(--color-telegram-dark); }
+.icon-circle--whatsapp { background: var(--color-whatsapp-soft); border-color: var(--color-whatsapp); color: var(--color-whatsapp-dark); }
+.icon-circle--viber { background: var(--color-viber-soft); border-color: var(--color-viber); color: var(--color-viber-dark); }
+.icon-circle--instagram { background: var(--color-instagram-soft); border-color: var(--color-instagram); color: var(--color-instagram-dark); }
+.icon-circle--facebook { background: var(--color-facebook-soft); border-color: var(--color-facebook); color: var(--color-facebook-dark); }
 
 /* ---------- Header / Nav ---------- */
 .site-header {
@@ -443,13 +454,6 @@ p { margin: 0 0 1em; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.hero__decor {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.5;
 }
 
 /* ---------- Cards grid (С чем можно обратиться) ---------- */
@@ -1135,7 +1139,11 @@ a.format-card:hover {
   gap: 14px;
 }
 
-.cert-thumb {
+/* .cert-thumb (галерея сертификатов) и .review-shot (скриншоты отзывов)
+   используют один и тот же набор правил — объединены, чтобы не дублировать
+   стили миниатюр-кнопок галереи в двух местах. */
+.cert-thumb,
+.review-shot {
   padding: 0;
   border: 1px solid var(--color-border);
   border-radius: 10px;
@@ -1145,21 +1153,18 @@ a.format-card:hover {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.cert-thumb img {
+.cert-thumb img,
+.review-shot img {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
 }
 
-.cert-thumb:hover {
+.cert-thumb:hover,
+.review-shot:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow);
-}
-
-.cert-thumb--expired {
-  border-color: var(--color-accent-soft);
-  opacity: 0.75;
 }
 
 /* ---------- Скриншоты отзывов (главная) ---------- */
@@ -1184,28 +1189,6 @@ a.format-card:hover {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 14px;
-}
-
-.review-shot {
-  padding: 0;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  background: var(--color-card);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.review-shot img {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  display: block;
-}
-
-.review-shot:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
 }
 
 /* ---------- Лайтбокс ---------- */
@@ -1355,12 +1338,6 @@ a.format-card:hover {
   font-style: italic;
   color: var(--color-text-soft);
   margin-top: -0.6em;
-}
-
-.article-cta {
-  max-width: 720px;
-  margin: 36px auto 0;
-  text-align: center;
 }
 
 .price-block {

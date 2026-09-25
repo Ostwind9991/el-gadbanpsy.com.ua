@@ -67,9 +67,12 @@ document.addEventListener('DOMContentLoaded', function () {
       var wasOpen = item.classList.contains('is-open');
       document.querySelectorAll('.faq-item.is-open').forEach(function (openItem) {
         openItem.classList.remove('is-open');
+        var openBtn = openItem.querySelector('.faq-item__q');
+        if (openBtn) { openBtn.setAttribute('aria-expanded', 'false'); }
       });
       if (!wasOpen) {
         item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
       }
     });
   });
@@ -157,86 +160,53 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ---------- Лайтбокс галереи сертификатов ---------- */
-  var lightbox = document.getElementById('certLightbox');
-  if (lightbox) {
+  /* ---------- Лайтбокс галерей (сертификаты, скриншоты отзывов) ----------
+     Общая фабрика: один и тот же паттерн (сетка миниатюр-кнопок + общий
+     .lightbox с prev/next/close) используется для нескольких независимых
+     галерей на разных страницах — вызывается один раз на каждый lightboxId. */
+  function initLightbox(lightboxId, dataAttr) {
+    var lightbox = document.getElementById(lightboxId);
+    if (!lightbox) { return; }
+
     var lbImg = lightbox.querySelector('.lightbox__img');
     var lbCaption = lightbox.querySelector('.lightbox__caption');
-    var certButtons = Array.prototype.slice.call(document.querySelectorAll('[data-cert-full]'));
-    var lbIndex = 0;
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('[' + dataAttr + '-full]'));
+    var index = 0;
 
-    function openLightbox(i) {
-      lbIndex = i;
-      var btn = certButtons[i];
-      lbImg.src = btn.getAttribute('data-cert-full');
-      lbCaption.textContent = btn.getAttribute('data-cert-caption') || '';
+    function open(i) {
+      index = i;
+      var btn = buttons[i];
+      lbImg.src = btn.getAttribute(dataAttr + '-full');
+      lbCaption.textContent = btn.getAttribute(dataAttr + '-caption') || '';
       lightbox.classList.add('is-open');
     }
-    function closeLightbox() {
+    function close() {
       lightbox.classList.remove('is-open');
       lbImg.src = '';
     }
     function showRelative(delta) {
-      lbIndex = (lbIndex + delta + certButtons.length) % certButtons.length;
-      openLightbox(lbIndex);
+      index = (index + delta + buttons.length) % buttons.length;
+      open(index);
     }
 
-    certButtons.forEach(function (btn, i) {
-      btn.addEventListener('click', function () { openLightbox(i); });
+    buttons.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { open(i); });
     });
-    lightbox.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.lightbox__close').addEventListener('click', close);
     lightbox.querySelector('.lightbox__prev').addEventListener('click', function () { showRelative(-1); });
     lightbox.querySelector('.lightbox__next').addEventListener('click', function () { showRelative(1); });
     lightbox.addEventListener('click', function (e) {
-      if (e.target === lightbox) { closeLightbox(); }
+      if (e.target === lightbox) { close(); }
     });
     document.addEventListener('keydown', function (e) {
       if (!lightbox.classList.contains('is-open')) { return; }
-      if (e.key === 'Escape') { closeLightbox(); }
+      if (e.key === 'Escape') { close(); }
       if (e.key === 'ArrowLeft') { showRelative(-1); }
       if (e.key === 'ArrowRight') { showRelative(1); }
     });
   }
 
-  /* ---------- Лайтбокс скриншотов отзывов (главная) ---------- */
-  var reviewLightbox = document.getElementById('reviewLightbox');
-  if (reviewLightbox) {
-    var rlImg = reviewLightbox.querySelector('.lightbox__img');
-    var rlCaption = reviewLightbox.querySelector('.lightbox__caption');
-    var reviewButtons = Array.prototype.slice.call(document.querySelectorAll('[data-review-full]'));
-    var rlIndex = 0;
-
-    function openReviewLightbox(i) {
-      rlIndex = i;
-      var btn = reviewButtons[i];
-      rlImg.src = btn.getAttribute('data-review-full');
-      rlCaption.textContent = btn.getAttribute('data-review-caption') || '';
-      reviewLightbox.classList.add('is-open');
-    }
-    function closeReviewLightbox() {
-      reviewLightbox.classList.remove('is-open');
-      rlImg.src = '';
-    }
-    function showReviewRelative(delta) {
-      rlIndex = (rlIndex + delta + reviewButtons.length) % reviewButtons.length;
-      openReviewLightbox(rlIndex);
-    }
-
-    reviewButtons.forEach(function (btn, i) {
-      btn.addEventListener('click', function () { openReviewLightbox(i); });
-    });
-    reviewLightbox.querySelector('.lightbox__close').addEventListener('click', closeReviewLightbox);
-    reviewLightbox.querySelector('.lightbox__prev').addEventListener('click', function () { showReviewRelative(-1); });
-    reviewLightbox.querySelector('.lightbox__next').addEventListener('click', function () { showReviewRelative(1); });
-    reviewLightbox.addEventListener('click', function (e) {
-      if (e.target === reviewLightbox) { closeReviewLightbox(); }
-    });
-    document.addEventListener('keydown', function (e) {
-      if (!reviewLightbox.classList.contains('is-open')) { return; }
-      if (e.key === 'Escape') { closeReviewLightbox(); }
-      if (e.key === 'ArrowLeft') { showReviewRelative(-1); }
-      if (e.key === 'ArrowRight') { showReviewRelative(1); }
-    });
-  }
+  initLightbox('certLightbox', 'data-cert');
+  initLightbox('reviewLightbox', 'data-review');
 
 });
