@@ -407,6 +407,25 @@ p { margin: 0 0 1em; }
   margin-bottom: 32px;
 }
 
+.hero__tags {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 8px;
+  font-size: 1.15rem;
+  line-height: 1.4;
+  color: var(--color-text-soft);
+  max-width: 560px;
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.hero__tags li:not(:first-child)::before {
+  content: "• ";
+  color: var(--color-accent);
+}
+
 .hero__photo-wrap {
   position: relative;
   border-radius: var(--radius);
@@ -1136,6 +1155,52 @@ a.format-card:hover {
 .cert-thumb--expired {
   border-color: var(--color-accent-soft);
   opacity: 0.75;
+}
+
+/* ---------- Скриншоты отзывов (главная) ---------- */
+.review-shots {
+  margin-top: 52px;
+  padding-top: 44px;
+  border-top: 1px solid var(--color-border);
+}
+
+.review-shots__title {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.review-shots__note {
+  color: var(--color-text-soft);
+  font-size: 0.92rem;
+  margin-bottom: 20px;
+}
+
+.review-shots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 14px;
+}
+
+.review-shot {
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--color-card);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.review-shot img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+}
+
+.review-shot:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 /* ---------- Лайтбокс ---------- */

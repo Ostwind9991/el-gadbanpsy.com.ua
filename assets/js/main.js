@@ -198,4 +198,45 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* ---------- Лайтбокс скриншотов отзывов (главная) ---------- */
+  var reviewLightbox = document.getElementById('reviewLightbox');
+  if (reviewLightbox) {
+    var rlImg = reviewLightbox.querySelector('.lightbox__img');
+    var rlCaption = reviewLightbox.querySelector('.lightbox__caption');
+    var reviewButtons = Array.prototype.slice.call(document.querySelectorAll('[data-review-full]'));
+    var rlIndex = 0;
+
+    function openReviewLightbox(i) {
+      rlIndex = i;
+      var btn = reviewButtons[i];
+      rlImg.src = btn.getAttribute('data-review-full');
+      rlCaption.textContent = btn.getAttribute('data-review-caption') || '';
+      reviewLightbox.classList.add('is-open');
+    }
+    function closeReviewLightbox() {
+      reviewLightbox.classList.remove('is-open');
+      rlImg.src = '';
+    }
+    function showReviewRelative(delta) {
+      rlIndex = (rlIndex + delta + reviewButtons.length) % reviewButtons.length;
+      openReviewLightbox(rlIndex);
+    }
+
+    reviewButtons.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { openReviewLightbox(i); });
+    });
+    reviewLightbox.querySelector('.lightbox__close').addEventListener('click', closeReviewLightbox);
+    reviewLightbox.querySelector('.lightbox__prev').addEventListener('click', function () { showReviewRelative(-1); });
+    reviewLightbox.querySelector('.lightbox__next').addEventListener('click', function () { showReviewRelative(1); });
+    reviewLightbox.addEventListener('click', function (e) {
+      if (e.target === reviewLightbox) { closeReviewLightbox(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!reviewLightbox.classList.contains('is-open')) { return; }
+      if (e.key === 'Escape') { closeReviewLightbox(); }
+      if (e.key === 'ArrowLeft') { showReviewRelative(-1); }
+      if (e.key === 'ArrowRight') { showReviewRelative(1); }
+    });
+  }
+
 });
