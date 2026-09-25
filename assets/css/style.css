@@ -748,13 +748,31 @@ a.format-card:hover {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
   gap: 48px;
-  align-items: center;
+  align-items: start;
+}
+
+/* Фото + видео «Кто я» — единая левая колонка, а не видео,
+   притиснутое отдельным блоком под кнопкой в тексте (было до v18) —
+   так колонка занимает всю высоту строки и не оставляет пустого
+   пространства слева от текста. */
+.about-media {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
 .about-photo {
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
+}
+
+/* .slider-caption по умолчанию рассчитан на тёмный фон .express —
+   здесь видео стоит на светлом фоне .section--alt, поэтому подпись
+   нужна в тёмном тексте, иначе она почти не читается (тот же паттерн
+   бага, что уже чинили у точек фото-слайдера в v15). */
+.about-video .slider-caption {
+  color: var(--color-text-soft);
 }
 
 .about-quote {
@@ -1001,7 +1019,8 @@ a.format-card:hover {
   .cards-grid,
   .formats-grid,
   .testimonials-grid,
-  .materials-grid {
+  .materials-grid,
+  .site-footer__nav {
     grid-template-columns: repeat(2, 1fr);
   }
   .steps-grid {
@@ -1074,38 +1093,6 @@ a.format-card:hover {
 
 .photo-slider__frame img.is-active {
   opacity: 1;
-}
-
-/* Заготовка-плейсхолдер для будущего слайдера (сессия 15, продолжение, v16) —
-   пока нет финальных фото от Светланы, показываем нейтральную карточку
-   вместо пустого/сломанного вида, но в рамке того же компонента, что и
-   обычный фото-слайдер, — когда фото придут, просто заменить это на
-   обычные <img class="is-active">/<img> внутри .photo-slider__frame. */
-.photo-slider__placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 24px;
-  text-align: center;
-  background: var(--color-bg-alt);
-  color: var(--color-text-soft);
-}
-
-.photo-slider__placeholder svg {
-  width: 40px;
-  height: 40px;
-  color: var(--color-accent);
-  opacity: 0.7;
-}
-
-.photo-slider__placeholder p {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
 }
 
 .page-hero__text .hero__status {
@@ -1491,9 +1478,9 @@ a.format-card:hover {
 /* ---------- Расширенный футер с навигацией ---------- */
 .site-footer__nav {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  max-width: 900px;
+  max-width: 1080px;
   margin: 0 auto 28px;
   text-align: left;
 }
@@ -1519,6 +1506,29 @@ a.format-card:hover {
 
 .site-footer__nav a {
   font-size: 0.88rem;
+}
+
+/* 4-я колонка футера — способы оплаты (v18). Иконки — намеренно
+   обобщённые (контур карты / доллар), а не бренд-логотипы Visa/
+   Mastercard — воспроизводить чужие товарные знаки не стоит. */
+.payment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.payment-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.75);
+}
+
+.payment-list svg {
+  flex-shrink: 0;
+  opacity: 0.8;
 }
 
 .site-footer__bottom {
