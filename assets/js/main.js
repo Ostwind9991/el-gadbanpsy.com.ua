@@ -146,6 +146,35 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /* ---------- Слайдер «Обо мне» на главной (фото + видео «Кто я») ----------
+     v19: точки переключают между фото и видео-рамкой в общей раскладке
+     (см. комментарий в style.css). При уходе со слайда видео — убираем
+     созданный iframe и возвращаем кнопку play, чтобы звук не продолжал
+     играть на скрытом слайде (та же логика, что у слайдера Э/К выше). */
+  document.querySelectorAll('[data-about-slider]').forEach(function (aboutSlider) {
+    var aSlides = aboutSlider.querySelectorAll('.about-slider__slide');
+    var aDots = aboutSlider.querySelectorAll('.slider-dots button');
+
+    function showAboutSlide(index) {
+      aSlides.forEach(function (slide, i) {
+        slide.classList.toggle('is-active', i === index);
+        if (i !== index) {
+          var iframe = slide.querySelector('iframe');
+          if (iframe) { iframe.remove(); }
+          var play = slide.querySelector('.phone-frame__play');
+          if (play) { play.style.display = 'flex'; }
+        }
+      });
+      aDots.forEach(function (dot, i) {
+        dot.classList.toggle('is-active', i === index);
+      });
+    }
+
+    aDots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { showAboutSlide(i); });
+    });
+  });
+
   /* ---------- Фото-слайдер (страница «Обо мне») ----------
      На странице может быть больше одного такого блока (например хедер-слайдер
      + отдельный слайдер «Из практики»), поэтому инициализация — на каждый

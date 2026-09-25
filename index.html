@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=18">
+<link rel="stylesheet" href="assets/css/style.css?v=19">
 </head>
 <body>
 
@@ -247,17 +247,26 @@
 <section class="section section--alt" id="about">
   <div class="container about-grid">
     <div class="about-media">
-      <div class="about-photo">
-        <img src="assets/img/svetlana-about-planner.jpg" alt="Светлана Эль-Гадбан за работой" width="960" height="1280">
-      </div>
-      <div class="video-slider about-video" data-video-single>
-        <div class="phone-frame">
-          <div class="phone-frame__screen" data-video-id="ls9ByA4u06s">
-            <img src="https://img.youtube.com/vi/ls9ByA4u06s/hqdefault.jpg" alt="Видео «Кто я» — превью">
-            <button class="phone-frame__play" aria-label="Воспроизвести видео «Кто я»">▶</button>
+      <div class="about-slider" data-about-slider>
+        <div class="about-slider__frame">
+          <div class="about-slider__slide about-slider__slide--photo is-active">
+            <img src="assets/img/svetlana-about-planner.jpg" alt="Светлана Эль-Гадбан за работой" width="960" height="1280">
+          </div>
+          <div class="about-slider__slide about-slider__slide--video">
+            <div class="video-slider" data-video-single>
+              <div class="phone-frame">
+                <div class="phone-frame__screen" data-video-id="ls9ByA4u06s">
+                  <img src="https://img.youtube.com/vi/ls9ByA4u06s/hqdefault.jpg" alt="Видео «Кто я» — превью">
+                  <button class="phone-frame__play" aria-label="Воспроизвести видео «Кто я»">▶</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="slider-caption">Видео «Кто я»</p>
+        <div class="slider-dots">
+          <button class="is-active" aria-label="Фото"></button>
+          <button aria-label="Видео «Кто я»"></button>
+        </div>
       </div>
     </div>
     <div class="about-text">
@@ -552,6 +561,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=18"></script>
+<script src="assets/js/main.js?v=19"></script>
 </body>
 </html>

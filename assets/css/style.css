@@ -751,28 +751,51 @@ a.format-card:hover {
   align-items: start;
 }
 
-/* Фото + видео «Кто я» — единая левая колонка, а не видео,
-   притиснутое отдельным блоком под кнопкой в тексте (было до v18) —
-   так колонка занимает всю высоту строки и не оставляет пустого
-   пространства слева от текста. */
 .about-media {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+  width: 100%;
 }
 
-.about-photo {
-  border-radius: var(--radius);
+/* Фото + видео «Кто я» в одном слайдере (v19) — раньше стояли друг под
+   другом в этой колонке (v18), но вместе выходили заметно выше текстовой
+   колонки и оставляли пустое место под текстом справа. Общая рамка с
+   точками-навигацией занимает высоту ОДНОГО слайда, а не суммы двух —
+   колонка получается сопоставимой по высоте с текстом. Разметка слайдов —
+   разнородная (фото / видео-рамка), поэтому это отдельный компонент, а не
+   переиспользование `.photo-slider`. */
+.about-slider__frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
 
-/* .slider-caption по умолчанию рассчитан на тёмный фон .express —
-   здесь видео стоит на светлом фоне .section--alt, поэтому подпись
-   нужна в тёмном тексте, иначе она почти не читается (тот же паттерн
-   бага, что уже чинили у точек фото-слайдера в v15). */
-.about-video .slider-caption {
-  color: var(--color-text-soft);
+.about-slider__slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.about-slider__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.about-slider__slide--photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Видео-рамка у́же самого слайда (было max-width:300px) — вписываем в
+   портретную рамку 4:5 без обрезки и без «вылезания» за края. */
+.about-slider__slide--video .video-slider {
+  max-width: 260px;
 }
 
 .about-quote {
