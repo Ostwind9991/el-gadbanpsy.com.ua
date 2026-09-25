@@ -146,9 +146,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /* ---------- Фото-слайдер (страница «Обо мне») ---------- */
-  var photoSlider = document.querySelector('[data-photo-slider]');
-  if (photoSlider) {
+  /* ---------- Фото-слайдер (страница «Обо мне») ----------
+     На странице может быть больше одного такого блока (например хедер-слайдер
+     + отдельный слайдер «Из практики»), поэтому инициализация — на каждый
+     [data-photo-slider] по отдельности, с независимым состоянием/таймером. */
+  document.querySelectorAll('[data-photo-slider]').forEach(function (photoSlider) {
     var pImgs = photoSlider.querySelectorAll('.photo-slider__frame img');
     var pDots = photoSlider.querySelectorAll('.slider-dots button');
     var pCurrent = 0;
@@ -187,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
     photoSlider.addEventListener('focusout', startAutoplay);
 
     startAutoplay();
-  }
+  });
 
   /* ---------- Лайтбокс галерей (сертификаты, скриншоты отзывов) ----------
      Общая фабрика: один и тот же паттерн (сетка миниатюр-кнопок + общий

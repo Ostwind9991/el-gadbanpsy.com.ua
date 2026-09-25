@@ -1063,6 +1063,38 @@ a.format-card:hover {
   opacity: 1;
 }
 
+/* Заготовка-плейсхолдер для будущего слайдера (сессия 15, продолжение, v16) —
+   пока нет финальных фото от Светланы, показываем нейтральную карточку
+   вместо пустого/сломанного вида, но в рамке того же компонента, что и
+   обычный фото-слайдер, — когда фото придут, просто заменить это на
+   обычные <img class="is-active">/<img> внутри .photo-slider__frame. */
+.photo-slider__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  text-align: center;
+  background: var(--color-bg-alt);
+  color: var(--color-text-soft);
+}
+
+.photo-slider__placeholder svg {
+  width: 40px;
+  height: 40px;
+  color: var(--color-accent);
+  opacity: 0.7;
+}
+
+.photo-slider__placeholder p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
 .page-hero__text .hero__status {
   margin-bottom: 10px;
 }
