@@ -17,10 +17,19 @@
 
   --color-telegram: #29a9eb;
   --color-telegram-dark: #1f8ecb;
+  --color-telegram-soft: #dcedf8;
   --color-whatsapp: #25d366;
   --color-whatsapp-dark: #1ea952;
+  --color-whatsapp-soft: #dcf3e4;
   --color-viber: #7360f2;
   --color-viber-dark: #5c4bd1;
+  --color-viber-soft: #e4e0fa;
+  --color-instagram: #c1366f;
+  --color-instagram-dark: #9c2a58;
+  --color-instagram-soft: #f4dfe8;
+  --color-facebook: #1877f2;
+  --color-facebook-dark: #145dbf;
+  --color-facebook-soft: #dce8fb;
 
   --font-heading: "Lora", Georgia, serif;
   --font-body: "Nunito", "Segoe UI", Arial, sans-serif;
@@ -154,15 +163,17 @@ p { margin: 0 0 1em; }
 }
 
 /* Messenger brand buttons — используются везде, где рядом стоят несколько
-   кнопок разных мессенджеров, чтобы они не сливались в одинаковые блоки */
-.btn--telegram { background: var(--color-telegram); color: #fff; }
-.btn--telegram:hover { background: var(--color-telegram-dark); }
+   кнопок разных мессенджеров, чтобы они не сливались в одинаковые блоки.
+   Приглушённый стиль: тонированная заливка + ободок брендового цвета,
+   насыщенный цвет остаётся только на hover — в общем тоне с остальным сайтом. */
+.btn--telegram { background: var(--color-telegram-soft); border-color: var(--color-telegram); color: var(--color-telegram-dark); }
+.btn--telegram:hover { background: var(--color-telegram); color: #fff; }
 
-.btn--whatsapp { background: var(--color-whatsapp); color: #fff; }
-.btn--whatsapp:hover { background: var(--color-whatsapp-dark); }
+.btn--whatsapp { background: var(--color-whatsapp-soft); border-color: var(--color-whatsapp); color: var(--color-whatsapp-dark); }
+.btn--whatsapp:hover { background: var(--color-whatsapp); color: #fff; }
 
-.btn--viber { background: var(--color-viber); color: #fff; }
-.btn--viber:hover { background: var(--color-viber-dark); }
+.btn--viber { background: var(--color-viber-soft); border-color: var(--color-viber); color: var(--color-viber-dark); }
+.btn--viber:hover { background: var(--color-viber); color: #fff; }
 
 .btn--phone {
   background: transparent;
@@ -171,7 +182,11 @@ p { margin: 0 0 1em; }
 }
 .btn--phone:hover { background: var(--color-bg-alt); }
 
-/* ---------- Header icon circles (мессенджеры + соцсети) ---------- */
+/* ---------- Header icon circles (мессенджеры + соцсети) ----------
+   Единый приглушённый стиль для всех пяти иконок: тонированная заливка
+   брендового цвета + тонкий ободок того же цвета, сама иконка — в
+   тёмном оттенке бренда (не белая). Цвет и заливка задаются инлайн
+   через CSS-переменные ...-soft/...-dark на каждой ссылке. */
 .icon-circle {
   display: flex;
   align-items: center;
@@ -179,7 +194,7 @@ p { margin: 0 0 1em; }
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  color: #fff;
+  border: 1.5px solid transparent;
   text-decoration: none;
   font-size: 0.78rem;
   font-weight: 700;
@@ -189,23 +204,13 @@ p { margin: 0 0 1em; }
 
 .icon-circle:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 10px rgba(58, 44, 34, 0.12);
 }
 
 .icon-circle svg {
   display: block;
   width: 17px;
   height: 17px;
-}
-
-.icon-circle--muted {
-  background: var(--color-bg-alt);
-  color: var(--color-text-soft);
-}
-
-.icon-circle--muted:hover {
-  background: var(--color-border);
-  color: var(--color-text);
 }
 
 /* ---------- Header / Nav ---------- */
@@ -421,7 +426,7 @@ p { margin: 0 0 1em; }
   list-style: none;
 }
 
-.hero__tags li:not(:first-child)::before {
+.hero__tags li::before {
   content: "• ";
   color: var(--color-accent);
 }
